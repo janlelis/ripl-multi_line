@@ -5,6 +5,7 @@ module Ripl
     def during_loop
       input = ''
       while true do
+        @error_raised = nil
         input = catch :multiline do
           new_input = get_input
           exit if !new_input
