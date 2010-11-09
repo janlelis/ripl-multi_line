@@ -1,6 +1,6 @@
 module Ripl
   module MultiLine
-    VERSION = '0.1.0'
+    VERSION = '0.1.1'
 
     def during_loop
       input = ''
