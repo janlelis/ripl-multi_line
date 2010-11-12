@@ -12,8 +12,6 @@ Add to your ~/.riplrc
 
     require 'ripl/multi_line'
 
-== Todo
-
-* Hook in more cleanly (future ripl version may break functionality of this plugin)
+You can customize your multi-line prompt with the <tt>multi_line_prompt</tt> option.
 
 J-_-L
