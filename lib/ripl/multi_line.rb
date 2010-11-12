@@ -2,34 +2,29 @@ module Ripl
   module MultiLine
     VERSION = '0.1.1'
 
-    def during_loop
-      input = ''
-      while true do
-        @error_raised = nil
-        input = catch :multiline do
-          new_input = get_input
-          exit if !new_input
-          input += new_input
-          exit if input == 'exit'
-          loop_once(input)
-          puts(format_result(@last_result)) unless @error_raised
-          input = ''
-        end
+    def before_loop
+      super
+      @buffer = nil
+    end
+
+    def loop_once
+      catch(:multiline) do
+        super
+        @buffer = nil
       end
     end
 
-    def loop_once(input)
-      @last_result = loop_eval(input)
-      eval("_ = Ripl.shell.last_result", @binding)
-    rescue Exception => e
-     if e.is_a?(SyntaxError) && e.message =~ /unexpected \$end|unterminated string meets end of file/
-       throw :multiline, input + "\n"
-     else
-       @error_raised = true
-       print_eval_error(e)
-     end
-    ensure
-      @line += 1
+    def print_eval_error(e)
+      if e.is_a?(SyntaxError) && e.message =~ /unexpected \$end|unterminated string meets end of file/
+        (@buffer ||= '') << @input+"\n"
+        throw :multiline
+      else
+        super
+      end
+    end
+
+    def eval_input(input)
+      super(@buffer ? @buffer + input : input)
     end
   end
 end
