@@ -5,6 +5,11 @@ module Ripl
     def before_loop
       super
       @buffer = nil
+      config[:multi_line_prompt] ||= ' > '
+    end
+
+    def prompt
+      @buffer ? config[:multi_line_prompt] : super
     end
 
     def loop_once
