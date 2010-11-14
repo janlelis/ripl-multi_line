@@ -1,5 +1,5 @@
 == Description
-This {ripl}[http://github.com/janlelis/ripl] plugin allows you to evaluate multiple lines of Ruby code.
+This {ripl}[http://github.com/cldwalker/ripl] plugin allows you to evaluate multiple lines of Ruby code.
 
 == Install
 Install the gem with:
@@ -8,10 +8,12 @@ Install the gem with:
 
 == Usage
 
-Add to your ~/.riplrc
+Add the following line to your ~/.riplrc
 
     require 'ripl/multi_line'
 
-You can customize your multi-line prompt with the <tt>multi_line_prompt</tt> option.
+You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> option, e.g.
+
+    Ripl.config[:multi_line_prompt] = ' >'
 
 J-_-L
