@@ -5,7 +5,7 @@ module Ripl
     def before_loop
       super
       @buffer = nil
-      config[:multi_line_prompt] ||= ' > '
+      config[:multi_line_prompt] ||= '|    '
     end
 
     def prompt
