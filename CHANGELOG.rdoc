@@ -1,3 +1,10 @@
+== 0.1.4
+* be compatible with 0.2.4 (undo monkey patch)
+
+== 0.1.3
+* be compatible with 0.2.3
+* new default prompt
+
 == 0.1.2
 * add a configurable multi-line prompt
 * use ripl's latest plugin API for a cleaner implementation

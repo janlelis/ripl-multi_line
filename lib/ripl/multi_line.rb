@@ -2,7 +2,7 @@ require 'ripl'
 
 module Ripl
   module MultiLine
-    VERSION = '0.1.3'
+    VERSION = '0.1.4'
 
     def before_loop
       super
