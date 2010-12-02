@@ -16,4 +16,6 @@ You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> op
 
   Ripl.config[:multi_line_prompt] = ' >'
 
+If you are in multi-line situation, you can press <tt>ctrl+c</tt> and the last line will be removed.
+
 J-_-L

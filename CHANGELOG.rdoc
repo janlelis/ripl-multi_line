@@ -1,3 +1,7 @@
+== 0.2.0
+* store buffer in an array instead of a string
+* added ctrl+c to remove last line in multi-line situation
+
 == 0.1.4
 * be compatible with 0.2.4 (undo monkey patch)
 
