@@ -3,6 +3,16 @@ require 'ripl'
 module Ripl
   module MultiLine
     VERSION = '0.2.0'
+    ERROR_REGEXP = /#{
+      [ %q%unexpected $end%,
+        %q%unterminated string meets end of file%,
+        # rubinius
+        %q%expecting '\\n' or ';'%,
+        %q%missing 'end'%,
+        %q%expecting '}'%,
+        # jruby
+        %q%syntax error, unexpected end-of-file%,
+      ].map{|e| Regexp.escape(e)}*'|' }/
 
     def before_loop
       super
@@ -21,7 +31,8 @@ module Ripl
     end
 
     def print_eval_error(e)
-      if e.is_a?(SyntaxError) && e.message =~ /unexpected \$end|unterminated string meets end of file/
+
+      if e.is_a?(SyntaxError) && e.message =~ ERROR_REGEXP
         @buffer ||= []
         @buffer << @input
         throw :multiline
