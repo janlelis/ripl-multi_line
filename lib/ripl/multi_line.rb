@@ -2,7 +2,7 @@ require 'ripl'
 
 module Ripl
   module MultiLine
-    VERSION = '0.2.0'
+    VERSION = '0.2.1'
     ERROR_REGEXP = /#{
       [ %q%unexpected $end%,
         %q%unterminated string meets end of file%,

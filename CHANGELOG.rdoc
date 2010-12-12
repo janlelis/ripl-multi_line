@@ -1,3 +1,6 @@
+== 0.2.1
+* rubinius and jruby support
+
 == 0.2.0
 * store buffer in an array instead of a string
 * added ctrl+c to remove last line in multi-line situation
