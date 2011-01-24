@@ -5,7 +5,7 @@ module Ripl
     VERSION = '0.2.1'
     ERROR_REGEXP = /#{
       [ %q%unexpected $end%,
-        %q%unterminated string meets end of file%,
+        %q%unterminated [a-z]+ meets end of file%,
         # rubinius
         %q%expecting '\\n' or ';'%,
         %q%missing 'end'%,
@@ -31,7 +31,6 @@ module Ripl
     end
 
     def print_eval_error(e)
-
       if e.is_a?(SyntaxError) && e.message =~ ERROR_REGEXP
         @buffer ||= []
         @buffer << @input
