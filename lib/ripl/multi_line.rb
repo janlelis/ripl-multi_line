@@ -2,7 +2,7 @@ require 'ripl'
 
 module Ripl
   module MultiLine
-    VERSION = '0.2.2'
+    VERSION = '0.2.3'
     ERROR_REGEXP = /#{
       [ %q%unexpected \$end%,
         %q%unterminated [a-z]+ meets end of file%,
@@ -77,8 +77,8 @@ module Ripl
 end
 
 Ripl::Shell.include Ripl::MultiLine
-Ripl.config[:multi_line_prompt] ||= proc do
-  '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) #'|    '
+Ripl.config[:multi_line_prompt] ||= proc do # you can also use a plain string here
+  '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) # '|  '
 end
 
 # J-_-L

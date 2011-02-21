@@ -1,5 +1,5 @@
 == Description
-This {ripl}[http://github.com/cldwalker/ripl] plugin allows you to evaluate multiple lines of Ruby code.
+This {ripl}[https://github.com/cldwalker/ripl] plugin allows you to evaluate multiple lines of Ruby code.
 
 == Install
 Install the gem with
@@ -14,11 +14,15 @@ Add the following line to your <tt>~/.riplrc</tt>
 
 You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> option. For example, put this into your <tt>~/.riplrc</tt>:
 
-  Ripl.config[:multi_line_prompt] = ' >'
+  Ripl.config[:multi_line_prompt] = ' > '
 
 If you are in multi-line situation, you can press <tt>ctrl+c</tt> and the last line will be removed.
 
-== Todo
-* Replaceable check if syntax is valid (allows use of this plugin for other languages than Ruby)
+== AutoIndent
+There is also an indention plugin available: {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent]
+
+== Planned for version 0.3.0
+* Tests :)
+* Replaceable check if syntax is valid (then, the plugin can be used for other languages than Ruby)
 
 J-_-L
