@@ -20,7 +20,16 @@ module Ripl
     end
 
     def prompt
-      @buffer ? config[:multi_line_prompt] : super
+      if @buffer
+        config[:multi_line_prompt].respond_to?(:call) ? 
+            config[:multi_line_prompt].call :
+            config[:multi_line_prompt]
+      else
+        super
+      end
+    rescue StandardError, SyntaxError
+      warn "ripl: Error while creating prompt:\n"+ format_error($!)
+      Ripl::Shell::OPTIONS[:prompt]
     end
 
     def loop_once
@@ -68,6 +77,8 @@ module Ripl
 end
 
 Ripl::Shell.include Ripl::MultiLine
-Ripl.config[:multi_line_prompt] ||= '|    '
+Ripl.config[:multi_line_prompt] ||= proc do
+  '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) #'|    '
+end
 
 # J-_-L

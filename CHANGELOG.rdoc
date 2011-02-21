@@ -1,3 +1,6 @@
+== 0.2.3
+* Allow procs as multi_line_prompt
+
 == 0.2.2
 * fix for mri regexes
 
