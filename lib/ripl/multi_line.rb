@@ -4,7 +4,7 @@ module Ripl
   module MultiLine
     VERSION = '0.2.2'
     ERROR_REGEXP = /#{
-      [ %q%unexpected $end%,
+      [ %q%unexpected \$end%,
         %q%unterminated [a-z]+ meets end of file%,
         # rubinius
         %q%expecting '\\n' or ';'%,
@@ -12,7 +12,7 @@ module Ripl
         %q%expecting '}'%,
         # jruby
         %q%syntax error, unexpected end-of-file%,
-      ].map{|e| Regexp.escape(e)}*'|' }/
+      ]*'|' }/
 
     def before_loop
       super
