@@ -2,14 +2,14 @@ require 'ripl'
 
 module Ripl
   module MultiLine
-    VERSION = '0.2.3'
+    VERSION = '0.2.4'
     ERROR_REGEXP = /#{
       [ %q%unexpected \$end%,
         %q%unterminated [a-z]+ meets end of file%,
         # rubinius
         %q%expecting '\\n' or ';'%,
         %q%missing 'end'%,
-        %q%expecting '}'%,
+        %q%expecting '\}'%,
         # jruby
         %q%syntax error, unexpected end-of-file%,
       ]*'|' }/

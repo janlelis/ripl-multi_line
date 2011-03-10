@@ -1,3 +1,6 @@
+== 0.2.4
+* fix 1.8 warning
+
 == 0.2.3
 * fix 0.2.2 bugs
 * allow procs as multi_line_prompt (and different default value)
