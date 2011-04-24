@@ -39,14 +39,23 @@ module Ripl
       end
     end
 
+    def eval_input(input)
+      add_input_to_buffer if input =~ /;\s*$/ # force multi line with ;
+      super
+    end
+
     def print_eval_error(e)
       if e.is_a?(SyntaxError) && e.message =~ ERROR_REGEXP
-        @buffer ||= []
-        @buffer << @input
-        throw :multiline
+        add_input_to_buffer
       else
         super
       end
+    end
+
+    def add_input_to_buffer
+      @buffer ||= []
+      @buffer << @input
+      throw :multiline
     end
   
     def loop_eval(input)
