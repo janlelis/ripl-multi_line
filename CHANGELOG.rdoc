@@ -1,5 +1,11 @@
 == 0.3.0
-* force multi line with ; after input
+* add :multi_line_short_history option (activated by default), based on https://gist.github.com/939846
+* support =begin...=end comments
+* add Shell#multiline? method to check if input should be handled as multi-line input
+  * separate Ruby-specific multi-line stuff from general implementation
+* tweak rubinius regex (thx to godfat)
+* add some basic tests
+* force multi-line with ; after input
 
 == 0.2.4
 * fix 1.8 warning
@@ -16,7 +22,7 @@
 
 == 0.2.0
 * store buffer in an array instead of a string
-* added ctrl+c to remove last line in multi-line situation
+* added ctrl+c to remove last line in multi-line situations
 
 == 0.1.4
 * be compatible with 0.2.4 (undo monkey patch)

@@ -4,6 +4,7 @@ require 'rr'
 require 'bacon/rr'
 require 'stringio'
 require 'ripl'
+require 'ripl/multi_line'
 include Ripl
 
 module Helpers
@@ -67,7 +68,7 @@ module Helpers
   def should_eval(input)
     it "should evaluate " + input do
       mock(shell).get_input { input }
-      capture_stderr { capture_stdout { shell.loop_once }.should != '' }
+      capture_stderr { capture_stdout { shell.loop_once }.should.not == '' }
     end
   end
 

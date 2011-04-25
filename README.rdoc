@@ -4,25 +4,35 @@ This {ripl}[https://github.com/cldwalker/ripl] plugin allows you to evaluate mul
 == Install
 Install the gem with
 
- gem install ripl-multi_line
+  gem install ripl-multi_line
 
 == Usage
-
 Add the following line to your <tt>~/.riplrc</tt>
 
   require 'ripl/multi_line'
 
+*Hint:* In multi-line situations, you can press <tt>ctrl+c</tt> and the last line will be removed.
+
+== Options
 You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> option. For example, put this into your <tt>~/.riplrc</tt>:
 
   Ripl.config[:multi_line_prompt] = ' > '
 
-If you are in multi-line situation, you can press <tt>ctrl+c</tt> and the last line will be removed.
+Another option is <tt>:multi_line_short_history</tt>. It's activated by default and enables the following history tweak:
+
+  >> def some_multi_line_block
+  |    42
+  |  end #=> nil
+  # Press <UP>
+  >> def some_multi_line_block; 42; end
 
 == AutoIndent
-There is also an indention plugin available: {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent]
+Check out the {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] plugin to get ruby syntax indention.
 
-== Planned for version 0.3.0
-* Tests :)
-* Replaceable check if syntax is valid (then, the plugin can be used for other languages than Ruby)
+== Extending MultiLine
+To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, set <tt>Ripl.config[:multi_line_ruby]</tt> to <tt>false</tt> and overwrite <tt>Shell#multiline?</tt> with your version.
+
+== Credits
+Contributions & influences by @cldwalker and @godfat.
 
 J-_-L

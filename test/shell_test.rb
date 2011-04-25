@@ -28,5 +28,5 @@ describe "Shell" do
     should_eval %| for x in [2,3,4];7;end |
   end
 
-  # TODO add misc tests for everything
+  # TODO add misc real tests for everything
 end
