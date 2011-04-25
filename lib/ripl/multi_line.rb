@@ -27,12 +27,16 @@ module Ripl
     def loop_once
       catch(:multiline) do
         super
+        if config[:multi_line_short_history] && @buffer && @input
+          (@buffer.size + 1).times{ history.pop }
+          history << (@buffer << @input).dup.join('; ')
+        end
         @buffer = nil
       end
     end
 
     # an option to classify input as multi-line:
-    #   overwrite this method to return true for inputs which should not get evaluated
+    #   overwrite this method to return true for inputs that should not get evaluated
     def multiline?(eval_string)
       false
     end
@@ -90,7 +94,7 @@ module Ripl
         if input =~ /;\s*$/ # force multi line with ;
           handle_multiline
         elsif input == '=begin'
-          @ignore_mode = true # maybe TODO: change prompt
+          @ignore_mode = true # MAYBE: change prompt
         # elsif @ignore_mode && input == '=end' # see print_result
         #   @ignore_mode = false
         else
@@ -110,12 +114,14 @@ module Ripl
   end
 end
 
-Ripl::Shell.include Ripl::MultiLine
+Ripl::Shell.include Ripl::MultiLine # Ripl::MultiLine::Ruby gets included in before_loop
 
 Ripl.config[:multi_line_prompt] ||= proc do # you can also use a plain string here
   '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) # '|  '
 end
 
 Ripl.config[:multi_line_ruby] = true
+
+Ripl.config[:multi_line_short_history] = true
 
 # J-_-L
