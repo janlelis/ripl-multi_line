@@ -54,15 +54,17 @@ module Ripl
     end
 
     # remove last line from buffer
-    # TODO: nicer interface (rewriting?)
+    # MAYBE: terminal rewriting
     def handle_interrupt
       if @buffer
         @buffer.pop
+        history.pop
         if @buffer.empty?
           @buffer = nil
+          print '[buffer empty]'
           return super
         else
-          puts "[previous line removed]"
+          puts "[previous line removed|#{@buffer.size}]"
           throw :multiline
         end
       else
