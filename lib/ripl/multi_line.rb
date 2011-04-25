@@ -8,6 +8,7 @@ module Ripl
       super
       @buffer = nil
       Ripl::Shell.include Ripl::MultiLine::Ruby if config[:multi_line_ruby]
+      @ignore_mode = false
     end
 
     def prompt
@@ -86,8 +87,23 @@ module Ripl
       end
 
       def eval_input(input)
-        handle_multiline if input =~ /;\s*$/ # force multi line with ;
-        super
+        if input =~ /;\s*$/ # force multi line with ;
+          handle_multiline
+        elsif input == '=begin'
+          @ignore_mode = true # maybe TODO: change prompt
+        # elsif @ignore_mode && input == '=end' # see print_result
+        #   @ignore_mode = false
+        else
+          super unless @ignore_mode
+        end
+      end
+
+      def print_result(result)
+        if @ignore_mode && @input == '=end' # see print_result
+          @ignore_mode = false
+        elsif !@ignore_mode
+          super
+        end
       end
 
     end
