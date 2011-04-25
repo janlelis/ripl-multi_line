@@ -4,14 +4,13 @@ module Ripl
   module MultiLine
     VERSION = '0.2.4'
     ERROR_REGEXP = /#{
-      [ %q%unexpected \$end%,
-        %q%unterminated [a-z]+ meets end of file%,
+      [ %q<unexpected \$end>,
+        %q<unterminated [a-z]+ meets end of file>,
         # rubinius
-        %q%expecting '\\n' or ';'%,
-        %q%missing 'end'%,
-        %q%expecting '\}'%,
+        %q<expecting '.+'( or '.+')*>,
+        %q<missing 'end'>,
         # jruby
-        %q%syntax error, unexpected end-of-file%,
+        %q<syntax error, unexpected end-of-file>,
       ]*'|' }/
 
     def before_loop
@@ -40,19 +39,19 @@ module Ripl
     end
 
     def eval_input(input)
-      add_input_to_buffer if input =~ /;\s*$/ # force multi line with ;
+      handle_multiline if input =~ /;\s*$/ # force multi line with ;
       super
     end
 
     def print_eval_error(e)
       if e.is_a?(SyntaxError) && e.message =~ ERROR_REGEXP
-        add_input_to_buffer
+        handle_multiline
       else
         super
       end
     end
 
-    def add_input_to_buffer
+    def handle_multiline
       @buffer ||= []
       @buffer << @input
       throw :multiline
