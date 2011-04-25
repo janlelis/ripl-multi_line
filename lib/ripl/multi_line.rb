@@ -95,7 +95,7 @@ module Ripl
       def eval_input(input)
         if input =~ /;\s*$/ # force multi line with ;
           handle_multiline
-        elsif input == '=begin'
+        elsif input =~ /^=begin(\s.*)?$/ && !@buffer
           @ignore_mode = true # MAYBE: change prompt
         # elsif @ignore_mode && input == '=end' # see print_result
         #   @ignore_mode = false
