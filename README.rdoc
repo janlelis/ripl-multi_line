@@ -30,7 +30,7 @@ Another option is <tt>:multi_line_short_history</tt>. It's activated by default 
 Check out the {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] plugin to get ruby syntax indention.
 
 == Extending MultiLine
-To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, set <tt>Ripl.config[:multi_line_ruby]</tt> to <tt>false</tt> and overwrite <tt>Shell#multiline?</tt> with your version.
+To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, implement your version at <tt>lib/ripl/multi_line/your_correct_detection.rb</tt> in which you overwrite <tt>Shell#multiline?</tt> in a <tt>Ripl::MultiLine</tt> sub-module named <tt>YourCorrectDetection</tt> and set <tt>Ripl.config[:multi_line_engine]</tt> to <tt>:your_correct_detection</tt>.
 
 == Credits
 Contributions & influences by @cldwalker and @godfat.

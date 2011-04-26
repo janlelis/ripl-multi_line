@@ -4,11 +4,19 @@ module Ripl
   module MultiLine
     VERSION = '0.2.4'
 
+    class << self
+      attr_accessor :engine
+    end
+
     def before_loop
       super
       @buffer = nil
-      Ripl::Shell.include Ripl::MultiLine::Ruby if config[:multi_line_ruby]
-      @ignore_mode = false
+      # include CamelCased implementation
+      require File.join( 'ripl', 'multi_line', config[:multi_line_engine].to_s )
+      Ripl::MultiLine.engine = Ripl::MultiLine.const_get(
+        config[:multi_line_engine].to_s.gsub(/(^|_)(\w)/){ $2.capitalize }
+      )
+      Ripl::Shell.include Ripl::MultiLine.engine
     end
 
     def prompt
@@ -29,7 +37,7 @@ module Ripl
         super
         if config[:multi_line_short_history] && @buffer && @input
           (@buffer.size + 1).times{ history.pop }
-          history << (@buffer << @input).dup.join('; ')
+          history << (@buffer << @input).dup.map{|e| e.sub(/(;+$|^;+)/, '') }.join('; ')
         end
         @buffer = nil
       end
@@ -72,58 +80,16 @@ module Ripl
       end
     end
 
-    # Ruby specific multi-line behaviour
-    module Ruby
-      ERROR_REGEXP = /#{
-        [ %q<unexpected \$end>,
-          %q<unterminated [a-z]+ meets end of file>,
-          # rubinius
-          %q<expecting '.+'( or '.+')*>,
-          %q<missing 'end'>,
-          # jruby
-          %q<syntax error, unexpected end-of-file>,
-        ]*'|' }/
-
-      def print_eval_error(e)
-        if e.is_a?(SyntaxError) && e.message =~ ERROR_REGEXP
-          handle_multiline
-        else
-          super
-        end
-      end
-
-      def eval_input(input)
-        if input =~ /;\s*$/ # force multi line with ;
-          handle_multiline
-        elsif input =~ /^=begin(\s.*)?$/ && !@buffer
-          @ignore_mode = true # MAYBE: change prompt
-        # elsif @ignore_mode && input == '=end' # see print_result
-        #   @ignore_mode = false
-        else
-          super unless @ignore_mode
-        end
-      end
-
-      def print_result(result)
-        if @ignore_mode && @input == '=end' # see print_result
-          @ignore_mode = false
-        elsif !@ignore_mode
-          super
-        end
-      end
-
-    end
   end
 end
 
-Ripl::Shell.include Ripl::MultiLine # Ripl::MultiLine::Ruby gets included in before_loop
+Ripl::Shell.include Ripl::MultiLine # implementation gets included in before_loop
+Ripl.config[:multi_line_engine] ||= :live # not satisfied? try :ripper or implement your own
 
 Ripl.config[:multi_line_prompt] ||= proc do # you can also use a plain string here
   '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) # '|  '
 end
 
-Ripl.config[:multi_line_ruby] = true
-
-Ripl.config[:multi_line_short_history] = true
+Ripl.config[:multi_line_short_history] = true  if Ripl.config[:multi_line_short_history].nil?
 
 # J-_-L
