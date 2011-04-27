@@ -35,8 +35,12 @@ Check out the {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] p
 To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, implement your version at <tt>lib/ripl/multi_line/your_correct_detection.rb</tt> in which you overwrite <tt>Shell#multiline?</tt> in a <tt>Ripl::MultiLine</tt> sub-module named <tt>YourCorrectDetection</tt> and set <tt>Ripl.config[:multi_line_engine]</tt> to <tt>:your_correct_detection</tt>. See <tt>lib/ripl/multi_line/ripper.rb</tt> for an example.
 
 Currently available engines:
-* LiveError (<b>default</b>): Simply evaluate expression, if it throws a multi-line syntax error, fall back to multi-line input mode. Sounds scary, but works pretty well in practice.
-* Ripper: Analyze input with Ripper which comes with 1.9 (but there is also a 1.8 gem).
+* :live_error (<b>default</b>) - Simply evaluate expression, if it throws a multi-line syntax error, fall back to multi-line input mode. Sounds scary, but works pretty well in practice.
+* :ripper - Analyze input with Ripper (comes with 1.9, but there is also a 1.8 gem).
+* :ripper_pure - Only check if ripper understands the expression.
+* :ruby_parser - Use ruby_parser gem (1.8 only)
+
+None of the above solutions is perfect, so... maybe it's time to roll your own ;)
 
 == Credits
 Contributions & influences by cldwalker and godfat.

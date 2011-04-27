@@ -41,6 +41,8 @@ module Ripl
           @buffer.zip(@buffer_info){ |str, type|
             history_entry << str
             history_entry << case
+            when !type.is_a?(Array)
+              "\n" # fallback to :block for unsure
             when type[0] == :statement
               '; '
             when type[0] == :literal && ( type[1] == :string || type[1] == :regexp )
@@ -100,12 +102,11 @@ module Ripl
 end
 
 Ripl::Shell.include Ripl::MultiLine # implementation gets included in before_loop
-Ripl.config[:multi_line_engine] ||= :live_error # not satisfied? try :ripper or implement your own
+Ripl.config[:multi_line_engine]  ||= :live_error # not satisfied? try :ruby_parser, :ripper or implement your own
+Ripl.config[:multi_line_history] ||= :compact
 
-Ripl.config[:multi_line_prompt] ||= proc do # you can also use a plain string here
+Ripl.config[:multi_line_prompt]  ||= proc do # you can also use a plain string here
   '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) # '|  '
 end
-
-Ripl.config[:multi_line_history] = :compact  if Ripl.config[:multi_line_history].nil?
 
 # J-_-L
