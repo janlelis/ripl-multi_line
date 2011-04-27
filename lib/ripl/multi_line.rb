@@ -35,25 +35,31 @@ module Ripl
     def loop_once
       catch(:multiline) do
         super
-        if config[:multi_line_history] && ( config[:multi_line_history] == :compact ) && @buffer && @input
+        if config[:multi_line_history] && @buffer && @input
           (@buffer.size + 1).times{ history.pop }
-          history_entry = ''
-          @buffer.zip(@buffer_info){ |str, type|
-            history_entry << str
-            history_entry << case
-            when !type.is_a?(Array)
-              "\n" # fallback to :block for unsure
-            when type[0] == :statement
-              '; '
-            when type[0] == :literal && ( type[1] == :string || type[1] == :regexp )
-              '\n'
-            else
-              ''
-            end
-          }
-          history_entry << @input
-          history << history_entry
+
+          if config[:multi_line_history] == :compact
+            history_entry = ''
+            @buffer.zip(@buffer_info){ |str, type|
+              history_entry << str
+              history_entry << case
+              when !type.is_a?(Array)
+                "\n" # fallback to :block for unsure
+              when type[0] == :statement
+                '; '
+              when type[0] == :literal && ( type[1] == :string || type[1] == :regexp )
+                '\n'
+              else
+                ''
+              end
+            }
+            history_entry << @input
+            history << history_entry
+          else # true or :block
+            history << (@buffer << @input).join("\n")
+          end
         end
+
         @buffer = @buffer_info = nil
       end
     end

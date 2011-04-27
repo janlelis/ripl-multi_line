@@ -18,7 +18,9 @@ You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> op
 
   Ripl.config[:multi_line_prompt] = ' > '
 
-Another option is <tt>:multi_line_history</tt>. The default option is <tt>:compact</tt> which tries to squeeze your last multi-line block into one line (works best in mri, in about 98% of all cases).
+It also takes a proc as value.
+
+Then there is the <tt>:multi_line_history</tt> option. The default value is <tt>:compact</tt> which tries to squeeze your last multi-line block into one line (works best in mri, in about 98% of all cases).
 
   >> def some_multi_line_block
   |    42
@@ -26,7 +28,9 @@ Another option is <tt>:multi_line_history</tt>. The default option is <tt>:compa
   # Press <UP>
   >> def some_multi_line_block; 42; end
 
-To deactivate this tweak, set it to </tt>:plain</tt> or a false value.
+Another value is <tt>:block</tt>, which joins the multi-line block with new-lines.
+
+To leave the history untouched, set it to </tt>:plain</tt> or a false value.
 
 == AutoIndent
 Check out the {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] plugin to get ruby syntax indention.
