@@ -11,14 +11,14 @@ Add the following line to your <tt>~/.riplrc</tt>
 
   require 'ripl/multi_line'
 
-*Hint:* In multi-line situations, you can press <tt>ctrl+c</tt> and the last line will be removed.
+<b>Hint:</b> In multi-line situations, you can press <tt>ctrl+c</tt> and the last line will be removed.
 
 == Options
 You can customize your multi-line prompt with the <tt>:multi_line_prompt</tt> option. For example, put this into your <tt>~/.riplrc</tt>:
 
   Ripl.config[:multi_line_prompt] = ' > '
 
-Another option is <tt>:multi_line_short_history</tt>. It's activated by default and enables the following history tweak:
+Another option is <tt>:multi_line_history</tt>. The default option is <tt>:compact</tt> which tries to squeeze your last multi-line block into one line (works best in mri, in about 98% of all cases).
 
   >> def some_multi_line_block
   |    42
@@ -26,13 +26,19 @@ Another option is <tt>:multi_line_short_history</tt>. It's activated by default 
   # Press <UP>
   >> def some_multi_line_block; 42; end
 
+To deactivate this tweak, set it to </tt>:plain</tt> or a false value.
+
 == AutoIndent
 Check out the {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] plugin to get ruby syntax indention.
 
-== Extending MultiLine
-To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, implement your version at <tt>lib/ripl/multi_line/your_correct_detection.rb</tt> in which you overwrite <tt>Shell#multiline?</tt> in a <tt>Ripl::MultiLine</tt> sub-module named <tt>YourCorrectDetection</tt> and set <tt>Ripl.config[:multi_line_engine]</tt> to <tt>:your_correct_detection</tt>.
+== MultiLine detection
+To use your own multi-line detection engine, read the source at <tt>lib/ripl/multi_line.rb</tt>, implement your version at <tt>lib/ripl/multi_line/your_correct_detection.rb</tt> in which you overwrite <tt>Shell#multiline?</tt> in a <tt>Ripl::MultiLine</tt> sub-module named <tt>YourCorrectDetection</tt> and set <tt>Ripl.config[:multi_line_engine]</tt> to <tt>:your_correct_detection</tt>. See <tt>lib/ripl/multi_line/ripper.rb</tt> for an example.
+
+Currently available engines:
+* LiveError (<b>default</b>): Simply evaluate expression, if it throws a multi-line syntax error, fall back to multi-line input mode. Sounds scary, but works pretty well in practice.
+* Ripper: Analyze input with Ripper which comes with 1.9 (but there is also a 1.8 gem).
 
 == Credits
-Contributions & influences by @cldwalker and @godfat.
+Contributions & influences by cldwalker and godfat.
 
 J-_-L
