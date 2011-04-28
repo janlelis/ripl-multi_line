@@ -4,6 +4,14 @@ require 'ruby_parser'
 Ripl.config[:multi_line_engine] ||= :ruby_parser
 require 'ripl/multi_line'
 
+# # # #
+# This multi-line implementation uses IRB's RubyLex parser
+#   works on:         1.8
+#   analyze features: [:literal, :string]
+#                     [:literal, :hash]
+#                     [:statement]
+#                     [:forced]
+#   notes:            statement could also be [
 module Ripl::MultiLine::RubyParser
   VERSION = '0.1.0'
 

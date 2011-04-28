@@ -3,7 +3,19 @@ require 'ripl'
 Ripl.config[:multi_line_engine] ||= :live_error
 require 'ripl/multi_line'
 
+# # # #
+# This multi-line implementation uses IRB's RubyLex parser
+#   works on:         1.9  1.8  jruby  rbx
+#   analyze features: [:literal, :string]
+#                     [:literal, :regexp]
+#                     [:literal, :array]   (mri only)
+#                     [:literal, :hash]    (mri only)
+#                     [:statement]
+#                     [:forced]
+#   notes:            rbx support buggy (depends on rubinius error messages)
 module Ripl::MultiLine::LiveError
+  VERSION = "0.1.0"
+
   ERROR_MESSAGES = {
     :ruby => [
       [[:literal, :string], /unterminated string meets end of file/],

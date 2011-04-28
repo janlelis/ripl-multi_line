@@ -5,7 +5,19 @@ require 'ripper'
 Ripl.config[:multi_line_engine] ||= :ripper
 require 'ripl/multi_line'
 
+# # # #
+# This multi-line implementation uses IRB's RubyLex parser
+#   works on:         1.9  1.8(gem)
+#   analyze features: [:literal, :string]
+#                     [:literal, :regexp]
+#                     [:literal, :array]   (mri only)
+#                     [:literal, :hash]    (mri only)
+#                     [:statement]
+#                     [:forced]
+#   notes:            statement could also be [
 module Ripl::MultiLine::Ripper
+  VERSION = '0.1.0'
+
   def multiline?(string)
     return [:forced] if string =~ /;\s*\Z/
 
@@ -21,16 +33,16 @@ module Ripl::MultiLine::Ripper
     delimiters = %q_(?:[\[<({][\]>)}]|(.)\1)_
 
     return [:literal, :string] if last_expr == [:string_literal, [:string_content]] &&
-      string !~ /(?:""|''|%q?#{delimiters})\Z/i # empty literal at $
+      string !~ /(?:""|''|%q?#{delimiters})\s*\Z/i # empty literal at $
 
     return [:literal, :string] if last_expr == [:xstring_literal, [:xstring_new]] &&
-      string !~ /%x#{delimiters}\Z/i
+      string !~ /(?:``|%x#{delimiters})\s*\Z/i
 
     return [:literal, :string] if last_expr == [:words_new] &&
-      string !~ /%W#{delimiters}\Z/
+      string !~ /%W#{delimiters}\s*\Z/
  
     return [:literal, :string] if last_expr == [:qwords_new] &&
-      string !~ /%w#{delimiters}\Z/
+      string !~ /%w#{delimiters}\s*\Z/
   end
 end
 
