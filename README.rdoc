@@ -40,9 +40,10 @@ To use your own multi-line detection engine, read the source at <tt>lib/ripl/mul
 
 Currently available engines:
 * :live_error (<b>default</b>) - Simply evaluate expression, if it throws a multi-line syntax error, fall back to multi-line input mode. Sounds scary, but works pretty well in practice.
+* :error_check - Same principle as :live_error, but don't do it live
 * :ripper - Analyze input with Ripper (comes with 1.9, but there is also a 1.8 gem).
-* :ripper_pure - Only check if ripper understands the expression.
 * :ruby_parser - Use ruby_parser gem (1.8 only)
+* :irb - You left irb, but you are still used to its multi-line behaviour? Use irb's RubyLex!
 
 None of the above solutions is perfect, so... maybe it's time to roll your own ;)
 
