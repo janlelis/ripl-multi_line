@@ -2,14 +2,13 @@ require 'ripl'
 
 module Ripl
   module MultiLine
-    VERSION = '0.2.4'
+    VERSION = '0.3.0'
 
     class << self
       attr_accessor :engine
     end
 
     def before_loop
-      super
       @buffer = @buffer_info = nil
       # include CamelCased implementation
       require File.join( 'ripl', 'multi_line', config[:multi_line_engine].to_s )
@@ -17,6 +16,7 @@ module Ripl
         config[:multi_line_engine].to_s.gsub(/(^|_)(\w)/){ $2.capitalize }
       )
       Ripl::Shell.include Ripl::MultiLine.engine
+      super
     end
 
     def prompt
@@ -64,13 +64,17 @@ module Ripl
       end
     end
 
-    # an option to classify input as multi-line:
-    #   overwrite this method to return true for inputs that should not get evaluated
+    # This method is overwritten by a multi-line implementation in lib/multi_line/*.rb
+    #   It should return a true value for a string that is unfinished and a false one
+    #    for complete expressions, which should get evaluated.
+    #   It's also possible (and encouraged) to return an array of symbols describing
+    #    what's the reason for continuing the expression (this is used in the :compact
+    #    history and gets passed to the prompt proc.
     def multiline?(eval_string)
       false
     end
 
-    def handle_multiline(type = :statement) # MAYBE: add second arg for specifc information
+    def handle_multiline(type = [:statement]) # MAYBE: add second arg for specific information
       @buffer ||= []
       @buffer_info ||= []
       @buffer << @input
@@ -107,11 +111,11 @@ module Ripl
   end
 end
 
-Ripl::Shell.include Ripl::MultiLine # implementation gets included in before_loop
-Ripl.config[:multi_line_engine]  ||= :live_error # not satisfied? try :ruby_parser, :ripper or implement your own
-Ripl.config[:multi_line_history] ||= :compact
+Ripl::Shell.include Ripl::MultiLine              # implementation gets included in before_loop
+Ripl.config[:multi_line_engine]  ||= :live_error # not satisfied? try :ripper, :irb or implement your own
+Ripl.config[:multi_line_history] ||= :compact    # possible other values: :block, :blank
 
-Ripl.config[:multi_line_prompt]  ||= proc do # you can also use a plain string here
+Ripl.config[:multi_line_prompt]  ||= proc do     # you can also use a plain string here
   '|' + ' '*(Ripl.shell.instance_variable_get(:@prompt).size-1) # '|  '
 end
 

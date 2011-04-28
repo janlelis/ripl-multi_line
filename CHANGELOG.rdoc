@@ -1,9 +1,10 @@
 == 0.3.0
-* add :multi_line_short_history option (activated by default), based on https://gist.github.com/939846
+* comes with five different multi-line implementations: live_error, error_check, irb, ripper and ruby_parser
+  * can be changed with config[:multi_line_engine], default is :live_error
+* add :multi_line_history option (default: compact), based on https://gist.github.com/939846
 * support =begin...=end comments
 * add Shell#multiline? method to check if input should be handled as multi-line input
   * separate Ruby-specific multi-line stuff from general implementation
-* tweak rubinius regex (thx to godfat)
 * add some basic tests
 * force multi-line with ; after input
 
