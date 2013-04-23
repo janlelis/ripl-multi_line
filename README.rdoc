@@ -1,4 +1,4 @@
-== Description
+== ripl-multi_line {<img src="https://travis-ci.org/janlelis/ripl-multi_line.png" />}[https://travis-ci.org/janlelis/ripl-multi_line]
 This {ripl}[https://github.com/cldwalker/ripl] plugin allows you to evaluate multiple lines of Ruby code.
 
 == Install
