@@ -6,8 +6,8 @@ Ripl.config[:multi_line_engine] ||= :ripper
 require 'ripl/multi_line'
 
 # # # #
-# This multi-line implementation uses IRB's RubyLex parser
-#   works on:         1.9  1.8(gem)
+# This multi-line implementation uses Ripper
+#   works on:         2.0  1.9  1.8(gem)
 #   analyze features: [:literal, :string]
 #                     [:literal, :regexp]
 #                     [:literal, :array]   (mri only)

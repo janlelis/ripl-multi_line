@@ -7,7 +7,7 @@ require 'ripl/multi_line'
 
 # # # #
 # This multi-line implementation uses IRB's RubyLex parser
-#   works on:         1.9  1.8  jruby  rbx
+#   works on:         2.0  1.9  1.8  jruby  rbx
 #   analyze features: none
 module Ripl::MultiLine::Irb
   VERSION = '0.1.0'
