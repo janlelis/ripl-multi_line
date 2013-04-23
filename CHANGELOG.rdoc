@@ -1,3 +1,6 @@
+== 0.3.1
+* Ruby 2.0 compatibility
+
 == 0.3.0
 * comes with five different multi-line implementations: live_error, error_check, irb, ripper and ruby_parser
   * can be changed with config[:multi_line_engine], default is :live_error
