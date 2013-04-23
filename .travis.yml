@@ -1,5 +1,5 @@
 script: bacon -q -Ilib -I. test/*_test.rb
-before_install: bundle init --gemspec=.gemspec
+before_install: bundle init --gemspec=ripl-multi_line.gemspec
 rvm:
 - ruby-head
 - 2.0.0
