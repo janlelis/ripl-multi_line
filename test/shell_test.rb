@@ -1,8 +1,6 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 describe "Shell" do
-  before { reset_ripl }
-
   def shell(options={})
     Ripl.shell(options)
   end
@@ -10,6 +8,13 @@ describe "Shell" do
   describe "multi-line behaviour" do
     %w[live_error error_check ripper irb].each { |engine|
       describe "[#{engine}]" do
+        before do
+          reset_ripl
+          reset_config
+          Ripl.config[:multi_line_engine] = engine
+          reset_shell
+        end
+
         should_eval %| "m" * 2 |
         should_eval %| "8989" |
         should_eval %| "zzz" |
