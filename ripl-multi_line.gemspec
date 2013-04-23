@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'rubygems' unless defined? Gem
-require File.dirname(__FILE__) + "/lib/ripl/multi_line"
+require File.dirname(__FILE__) + "/lib/ripl/multi_line/version"
  
 Gem::Specification.new do |s|
   s.name        = "ripl-multi_line"

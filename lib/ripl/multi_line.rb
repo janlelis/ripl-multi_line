@@ -1,9 +1,8 @@
 require 'ripl'
+require 'ripl/multi_line/version'
 
 module Ripl
   module MultiLine
-    VERSION = '0.3.0'
-
     class << self
       attr_accessor :engine
     end
