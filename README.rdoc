@@ -56,7 +56,7 @@ None of the above solutions is perfect, so... maybe it's time to roll your own ;
   Ripl::MultiLine.engine = Ripl::MultiLine::LiveError
   Ripl::Shell.include Ripl::MultiLine.engine
 
-== Credits
+== J-_-L
 Contributions & influences by cldwalker and godfat.
 
 J-_-L
